@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Me Chame pelo Seu Nome (2017)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,16 +35,18 @@
         .player-wrapper {
             position: relative;
             width: 100%;
+            aspect-ratio: 16 / 9;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 40px rgba(0,0,0,.6);
         }
-        .player-wrapper video {
-            display: block;
+        .player-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
             width: 100%;
-            aspect-ratio: 16 / 9;
-            max-height: 80vh;
+            height: 100%;
+            border: 0;
         }
         .info {
             margin-top: 16px;
@@ -59,14 +61,8 @@
             padding: 4px 12px;
             border-radius: 20px;
         }
-        .badge {
-            color: #f5c518;
-        }
-        footer {
-            margin-top: 30px;
-            font-size: 0.75rem;
-            color: #444;
-        }
+        .badge { color: #f5c518; }
+        footer { margin-top: 30px; font-size: 0.75rem; color: #444; }
         @media (max-width: 600px) {
             h1 { font-size: 1.2rem; }
             body { padding: 12px; }
@@ -79,11 +75,11 @@
         <div class="sub">Call Me by Your Name · Luca Guadagnino</div>
 
         <div class="player-wrapper">
-            <video controls playsinline webkit-playsinline preload="metadata"
-                   poster="https://image.tmdb.org/t/p/w500/7mLoT2U7Bo4nLspJc0DC6zBkCvL.jpg">
-                <source src="https://drive.usercontent.google.com/download?id=1i3oEziEYpcbPTTZNxzLaGbMm-aHMez5Y&export=download&confirm=t"
-                        type="video/mp4">
-            </video>
+            <iframe src="https://drive.google.com/file/d/1i3oEziEYpcbPTTZNxzLaGbMm-aHMez5Y/preview?rm=minimal"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen
+                    loading="lazy">
+            </iframe>
         </div>
 
         <div class="info">
