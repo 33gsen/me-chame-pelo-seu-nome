@@ -2,9 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Me Chame pelo Seu Nome (2017)</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -31,38 +30,43 @@
             margin-bottom: 20px;
         }
         .player-wrapper {
+            position: relative;
             width: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 40px rgba(0,0,0,.6);
         }
-        .player-wrapper video {
+        .player-wrapper iframe {
             width: 100%;
-            display: block;
+            border: 0;
         }
-        /* Plyr customizations for mobile */
-        .plyr { border-radius: 12px; overflow: hidden; }
-        .plyr--video .plyr__controls {
-            padding: 12px 15px;
+        /* Desktop: 16:9 */
+        @media (min-width: 601px) {
+            .player-wrapper { aspect-ratio: 16 / 9; }
+            .player-wrapper iframe {
+                position: absolute;
+                top: 0; left: 0;
+                height: 100%;
+            }
         }
-        .plyr__control {
-            padding: 12px !important;
+        /* Mobile portrait: taller for easier controls */
+        @media (max-width: 600px) {
+            .player-wrapper {
+                aspect-ratio: 4 / 3;
+            }
+            .player-wrapper iframe {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                /* video stays 16:9, centered in the 4:3 container */
+                height: 75%;
+                aspect-ratio: 16 / 9;
+            }
+            h1 { font-size: 1.2rem; }
+            body { padding: 12px; }
         }
-        .plyr__controls__item.plyr__control {
-            min-width: 48px;
-            min-height: 48px;
-        }
-        .plyr__progress__container {
-            min-height: 12px;
-        }
-        .plyr__progress__buffer {
-            height: 6px;
-        }
-        .plyr__progress input[type=range] {
-            height: 12px;
-        }
-
         .info {
             margin-top: 16px;
             display: flex;
@@ -78,29 +82,6 @@
         }
         .badge { color: #f5c518; }
         footer { margin-top: 30px; font-size: 0.75rem; color: #444; }
-        .fallback {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        .fallback a {
-            display: inline-block;
-            background: #1a73e8;
-            color: #fff;
-            padding: 16px 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 12px;
-        }
-        .fallback.show { display: block; }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 1.2rem; }
-            body { padding: 12px; }
-            .plyr__control { padding: 14px !important; }
-        }
     </style>
 </head>
 <body>
@@ -109,16 +90,10 @@
         <div class="sub">Call Me by Your Name · Luca Guadagnino</div>
 
         <div class="player-wrapper">
-            <video id="player" controls playsinline webkit-playsinline
-                   poster="https://image.tmdb.org/t/p/w500/7mLoT2U7Bo4nLspJc0DC6zBkCvL.jpg"
-                   data-plyr-config='{"title":"Me Chame pelo Seu Nome","seekTime":10,"iconUrl":"https://cdn.plyr.io/3.7.8/plyr.svg"}'>
-                <source src="https://drive.usercontent.google.com/download?id=1i3oEziEYpcbPTTZNxzLaGbMm-aHMez5Y&export=download&confirm=t"
-                        type="video/mp4">
-            </video>
-            <div class="fallback" id="fallback">
-                <p style="color:#888;margin-bottom:8px;">❌ Não foi possível carregar o vídeo direto.</p>
-                <a href="https://drive.google.com/file/d/1i3oEziEYpcbPTTZNxzLaGbMm-aHMez5Y/preview?rm=minimal" target="_blank">▶ Abrir no Google Drive</a>
-            </div>
+            <iframe src="https://drive.google.com/file/d/1i3oEziEYpcbPTTZNxzLaGbMm-aHMez5Y/preview?rm=minimal"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen>
+            </iframe>
         </div>
 
         <div class="info">
@@ -129,39 +104,5 @@
         </div>
         <footer></footer>
     </div>
-
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('player');
-            const fallback = document.getElementById('fallback');
-
-            // If video fails to load, show fallback
-            video.addEventListener('error', () => {
-                video.style.display = 'none';
-                fallback.classList.add('show');
-            });
-
-            // Initialize Plyr
-            const player = new Plyr(video, {
-                controls: [
-                    'play-large',
-                    'rewind',
-                    'play',
-                    'fast-forward',
-                    'progress',
-                    'current-time',
-                    'duration',
-                    'mute',
-                    'volume',
-                    'settings',
-                    'fullscreen'
-                ],
-                settings: ['speed', 'quality'],
-                speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
-                storage: { enabled: false }
-            });
-        });
-    </script>
 </body>
 </html>
